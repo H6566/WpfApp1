@@ -1,0 +1,81 @@
+﻿<Page x:Class="WpfApp1.Pages.PageMedicalCard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageMedicalCard">
+
+    <Grid Background="#0A1F1A">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="0.3*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Функции" HorizontalAlignment="Center"
+                       FontSize="20" Foreground="White"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock Text="Медицинская карта" Foreground="White" FontSize="20"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" 
+                    Orientation="Vertical" Background="#0A1F1A">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Поиск по диагнозу:" HorizontalAlignment="Center" Foreground="White"/>
+                <ToolBar Grid.Column="1" Height="20">
+                    <TextBox Width="130" Height="25" Name="Finddiag" TextChanged="Finddiag_TextChanged"></TextBox>
+                </ToolBar>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Text="Сортировка" Margin="5" FontSize="12" Foreground="White"/>
+                <RadioButton Content="От А до Я" Foreground="White"
+                             Margin="2"
+                             Name="RbUp"
+                             Checked="RbUp_Checked"/>
+                <RadioButton Content="От Я до А" Foreground="White"
+                             Margin="2"
+                             Name="RbDown"
+                             Checked="RbDown_Checked"/>
+            </StackPanel>
+            <StackPanel>
+                <Button Content="Удалить" Height="30" Width="80" Margin="10" 
+                        Name="Delette" Click="Delette_Click" FontSize="16" Style="{StaticResource StyleBtn}"/>
+            </StackPanel>
+            <Button Content="Добавить" Height="30" Width="80" Margin="10" 
+                        Name="Btnadd" Click="Btnadd_Click" FontSize="16" Style="{StaticResource StyleBtn}"/>
+        </StackPanel>
+        <DataGrid Name="DtgSQL" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" Grid.Row="1" Grid.Column="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                        Header="ФИО доктора" Width="*"
+                        Binding="{Binding Doctor.FIO}"/>
+                <DataGridTextColumn
+                        Header="ФИО пациента" Width="*"
+                        Binding="{Binding Patient.FIO}"/>
+                <DataGridTextColumn
+                        Header="Диагноз" Width="*"
+                        Binding="{Binding Diagnosis.DiseaseName}"/>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Button Content="Ред." FontSize="15"  Width="30" Height="30" Margin="7" Name="BTNedit" Click="BTNedit_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="0" Grid.Column="2" Width="100" Height="50" Content="Главное меню" Name = "Glavmenu"  Click="Glavmenu_Click" Style="{StaticResource StyleBtn}" FontSize="13"/>
+        <Button Grid.Row="2" Grid.Column="2" Width="100" Height="50" Content="Диагноз" Name = "Diag"  Click="Doctor_Click" Style="{StaticResource StyleBtn}" FontSize="13"/>
+        <Button Grid.Row="2" Grid.Column="0" Width="100" Height="50" Content="Доктора" Name = "Doctor"  Click="Medical_Click" Style="{StaticResource StyleBtn}" FontSize="13"/>
+    </Grid>
+</Page>

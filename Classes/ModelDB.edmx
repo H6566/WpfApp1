@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PolyclinicModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Diagnosis">
+          <Key>
+            <PropertyRef Name="IDDiagnosis" />
+          </Key>
+          <Property Name="IDDiagnosis" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiseaseName" Type="nchar" MaxLength="60" />
+          <Property Name="Severity" Type="nchar" MaxLength="60" />
+          <Property Name="IDTreatment" Type="int" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="IDDoctor" />
+          </Key>
+          <Property Name="IDDoctor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar(max)" />
+          <Property Name="WorkExperience" Type="int" />
+          <Property Name="IDSpecialization" Type="int" />
+        </EntityType>
+        <EntityType Name="MedicalCard">
+          <Key>
+            <PropertyRef Name="IDMedicalBook" />
+          </Key>
+          <Property Name="IDMedicalBook" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDDoctor" Type="int" />
+          <Property Name="IDPatient" Type="int" />
+          <Property Name="IDDiagnosis" Type="int" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="IDPatient" />
+          </Key>
+          <Property Name="IDPatient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar(max)" />
+          <Property Name="PlaceOfResidence" Type="nchar" MaxLength="90" />
+          <Property Name="PlaceOfWork" Type="nchar" MaxLength="60" />
+          <Property Name="YearOfBirth" Type="int" />
+          <Property Name="DateOfTheApplication" Type="date" />
+          <Property Name="Snils" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="IDSpecialization" />
+          </Key>
+          <Property Name="IDSpecialization" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameSpecialization" Type="nchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="IDTreatment" />
+          </Key>
+          <Property Name="IDTreatment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreatmentСharacteristic" Type="nchar" MaxLength="60" />
+          <Property Name="DurationOfrTreatment" Type="int" />
+        </EntityType>
+        <Association Name="FK_Diagnosis_Treatment">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="IDTreatment" />
+            </Principal>
+            <Dependent Role="Diagnosis">
+              <PropertyRef Name="IDTreatment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="IDSpecialization" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="IDSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Diagnosis">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="IDDiagnosis" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDDiagnosis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="IDDoctor" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDDoctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="IDPatient" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDPatient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PolyclinicModelContainer">
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicalCard" EntityType="Self.MedicalCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatment" EntityType="Self.Treatment" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Diagnosis_Treatment" Association="Self.FK_Diagnosis_Treatment">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Specialization" Association="Self.FK_Doctor_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Diagnosis" Association="Self.FK_MedicalBook_Diagnosis">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Doctor" Association="Self.FK_MedicalBook_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Patient" Association="Self.FK_MedicalBook_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PolyclinicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Diagnosis">
+          <Key>
+            <PropertyRef Name="IDDiagnosis" />
+          </Key>
+          <Property Name="IDDiagnosis" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiseaseName" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="Severity" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="IDTreatment" Type="Int32" />
+          <NavigationProperty Name="Treatment" Relationship="Self.FK_Diagnosis_Treatment" FromRole="Diagnosis" ToRole="Treatment" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_MedicalBook_Diagnosis" FromRole="Diagnosis" ToRole="MedicalCard" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="IDDoctor" />
+          </Key>
+          <Property Name="IDDoctor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkExperience" Type="Int32" />
+          <Property Name="IDSpecialization" Type="Int32" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK_Doctor_Specialization" FromRole="Doctor" ToRole="Specialization" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_MedicalBook_Doctor" FromRole="Doctor" ToRole="MedicalCard" />
+        </EntityType>
+        <EntityType Name="MedicalCard">
+          <Key>
+            <PropertyRef Name="IDMedicalBook" />
+          </Key>
+          <Property Name="IDMedicalBook" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDDoctor" Type="Int32" />
+          <Property Name="IDPatient" Type="Int32" />
+          <Property Name="IDDiagnosis" Type="Int32" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.FK_MedicalBook_Diagnosis" FromRole="MedicalCard" ToRole="Diagnosis" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_MedicalBook_Doctor" FromRole="MedicalCard" ToRole="Doctor" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK_MedicalBook_Patient" FromRole="MedicalCard" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="IDPatient" />
+          </Key>
+          <Property Name="IDPatient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceOfResidence" Type="String" MaxLength="90" FixedLength="true" Unicode="true" />
+          <Property Name="PlaceOfWork" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="YearOfBirth" Type="Int32" />
+          <Property Name="DateOfTheApplication" Type="DateTime" Precision="0" />
+          <Property Name="Snils" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_MedicalBook_Patient" FromRole="Patient" ToRole="MedicalCard" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="IDSpecialization" />
+          </Key>
+          <Property Name="IDSpecialization" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameSpecialization" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Doctor_Specialization" FromRole="Specialization" ToRole="Doctor" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="IDTreatment" />
+          </Key>
+          <Property Name="IDTreatment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreatmentСharacteristic" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="DurationOfrTreatment" Type="Int32" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.FK_Diagnosis_Treatment" FromRole="Treatment" ToRole="Diagnosis" />
+        </EntityType>
+        <Association Name="FK_Diagnosis_Treatment">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="IDTreatment" />
+            </Principal>
+            <Dependent Role="Diagnosis">
+              <PropertyRef Name="IDTreatment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Diagnosis">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="IDDiagnosis" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDDiagnosis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="IDSpecialization" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="IDSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="IDDoctor" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDDoctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicalBook_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="IDPatient" />
+            </Principal>
+            <Dependent Role="MedicalCard">
+              <PropertyRef Name="IDPatient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PolyclinicEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" />
+          <EntitySet Name="MedicalCard" EntityType="Self.MedicalCard" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Treatment" EntityType="Self.Treatment" />
+          <AssociationSet Name="FK_Diagnosis_Treatment" Association="Self.FK_Diagnosis_Treatment">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Diagnosis" Association="Self.FK_MedicalBook_Diagnosis">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Specialization" Association="Self.FK_Doctor_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Doctor" Association="Self.FK_MedicalBook_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicalBook_Patient" Association="Self.FK_MedicalBook_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PolyclinicModelContainer" CdmEntityContainer="PolyclinicEntities">
+          <EntitySetMapping Name="Diagnosis">
+            <EntityTypeMapping TypeName="PolyclinicModel.Diagnosis">
+              <MappingFragment StoreEntitySet="Diagnosis">
+                <ScalarProperty Name="IDDiagnosis" ColumnName="IDDiagnosis" />
+                <ScalarProperty Name="DiseaseName" ColumnName="DiseaseName" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="IDTreatment" ColumnName="IDTreatment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctor">
+            <EntityTypeMapping TypeName="PolyclinicModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="IDDoctor" ColumnName="IDDoctor" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="WorkExperience" ColumnName="WorkExperience" />
+                <ScalarProperty Name="IDSpecialization" ColumnName="IDSpecialization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalCard">
+            <EntityTypeMapping TypeName="PolyclinicModel.MedicalCard">
+              <MappingFragment StoreEntitySet="MedicalCard">
+                <ScalarProperty Name="IDMedicalBook" ColumnName="IDMedicalBook" />
+                <ScalarProperty Name="IDDoctor" ColumnName="IDDoctor" />
+                <ScalarProperty Name="IDPatient" ColumnName="IDPatient" />
+                <ScalarProperty Name="IDDiagnosis" ColumnName="IDDiagnosis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patient">
+            <EntityTypeMapping TypeName="PolyclinicModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="IDPatient" ColumnName="IDPatient" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="PlaceOfResidence" ColumnName="PlaceOfResidence" />
+                <ScalarProperty Name="PlaceOfWork" ColumnName="PlaceOfWork" />
+                <ScalarProperty Name="YearOfBirth" ColumnName="YearOfBirth" />
+                <ScalarProperty Name="DateOfTheApplication" ColumnName="DateOfTheApplication" />
+                <ScalarProperty Name="Snils" ColumnName="Snils" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialization">
+            <EntityTypeMapping TypeName="PolyclinicModel.Specialization">
+              <MappingFragment StoreEntitySet="Specialization">
+                <ScalarProperty Name="IDSpecialization" ColumnName="IDSpecialization" />
+                <ScalarProperty Name="NameSpecialization" ColumnName="NameSpecialization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PolyclinicModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatment">
+            <EntityTypeMapping TypeName="PolyclinicModel.Treatment">
+              <MappingFragment StoreEntitySet="Treatment">
+                <ScalarProperty Name="IDTreatment" ColumnName="IDTreatment" />
+                <ScalarProperty Name="TreatmentСharacteristic" ColumnName="TreatmentСharacteristic" />
+                <ScalarProperty Name="DurationOfrTreatment" ColumnName="DurationOfrTreatment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

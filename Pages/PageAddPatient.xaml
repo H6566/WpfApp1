@@ -1,0 +1,58 @@
+﻿<Page x:Class="WpfApp1.Pages.PageAddPatient"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageAddPatient">
+
+    <Grid Background="#0A1F1A">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="#0A1F1A">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+                <TextBlock Text="Добавление нового пациента" Width="300" Height="20" Margin="10" TextAlignment="Center" 
+                            Foreground="White" FontWeight="Bold" FontSize="17" Name="Titletxt"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="ФИО" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtname"  Text="{Binding FIO}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="Место проживания" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtlive"  Text="{Binding PlaceOfResidence}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="Место работы" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtjob"  Text="{Binding PlaceOfWork}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="Год рождения" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtyear"  Text="{Binding YearOfBirth}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="Дата посещения" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtbrith" Text="{Binding DateOfTheApplication, StringFormat=d}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Width="400">
+                <TextBlock Width="150" Text="Снилс" FontSize="16" Foreground="White" FontWeight="DemiBold" Margin="7" />
+                <TextBox Name="Txtsnils"  Text="{Binding Snils}" Width="180" Margin="7" FontSize="14"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" >
+                <Button Style="{StaticResource StyleBtn}" Content="Добавить" Name="btnAddpubly" Click="btnAddpubly_Click" />
+            </StackPanel>
+            <StackPanel>
+                <Button Style="{StaticResource StyleBtn}" Content="Отмена" Name="btnExit" Click="btnExit_Click" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

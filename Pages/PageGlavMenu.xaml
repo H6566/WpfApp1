@@ -1,0 +1,31 @@
+﻿<Page x:Class="WpfApp1.Pages.PageGlavMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageGlavMenu">
+
+    <Grid Background ="#0A1F1A">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <TextBlock Text="Главное меню" Foreground="White" FontSize="20"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Grid.Row="1">
+            <Button Height="50" Width="300" Content="Пациент"
+                    FontSize="15" Margin="10" Click="Button_Click" Style="{StaticResource StyleBtn}"/>
+            <Button Height="50" Width="300" Content="Доктор"
+                    FontSize="15" Margin="10" Click="Button_Click_1" Style="{StaticResource StyleBtn}"/>
+            <Button Height="50" Width="300" Content="Медицинская карта"
+                    FontSize="15" Margin="10" Click="Button_Click_2" Style="{StaticResource StyleBtn}"/>
+            <Button Height="50" Width="300" Content="Диагноз"
+                    FontSize="15" Margin="10" Click="Button_Click_3" Style="{StaticResource StyleBtn}"/>
+        </StackPanel>
+    </Grid>
+</Page>
